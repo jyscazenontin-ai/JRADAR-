@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JRADAR — Trouve. Localise. Commande.</title>
+<meta name="description" content="JRADAR localise commerces, restaurants et services près de vous. Trouvez, contactez et commandez directement. Inscription gratuite pour les pros.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="dot"></span> JRADAR</div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="discover">Découvrir</button>
+      <button class="tab-btn" data-tab="register">Inscrire mon entreprise</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Annuaire local en temps réel</span>
+      <h1>Repère les entreprises <em>autour de toi</em>.</h1>
+      <p>JRADAR classe restaurants, commerces et services par proximité, où que tu sois — ville, quartier, pays. Localise, contacte, commande.</p>
+    </div>
+    <div class="radar" id="radarViz"></div>
+  </div>
+
+  <!-- ============ DÉCOUVRIR ============ -->
+  <section id="discover" class="active">
+    <h2 class="panel-title">Autour de toi</h2>
+    <p class="panel-sub">Classé du plus proche au plus loin dès que ta position est active.</p>
+
+    <div class="loc-banner" id="locBanner">
+      <div class="loc-status" id="locStatus">📍 Position non activée — les résultats ne sont pas triés par distance.</div>
+      <button class="btn-ghost" id="locBtn">Activer ma position</button>
+    </div>
+
+    <div class="filters">
+      <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un nom, un service, un quartier…">
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <div class="biz-grid" id="bizGrid"></div>
+  </section>
+
+  <!-- ============ INSCRIPTION ============ -->
+  <section id="register">
+    <h2 class="panel-title">Inscris ton entreprise sur JRADAR</h2>
+    <p class="panel-sub">Ton profil apparaîtra immédiatement dans le radar, classé par proximité pour les personnes autour de toi.</p>
+
+    <div class="form-card">
+      <form id="bizForm">
+        <div class="field">
+          <label>Nom de l'entreprise <span class="req">*</span></label>
+          <input type="text" id="f_name" placeholder="Ex : Le Grill du Port" required>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Catégorie <span class="req">*</span></label>
+            <select id="f_cat" required>
+              <option value="">Choisir…</option>
+              <option value="Restauration">🍽️ Restauration</option>
+              <option value="Beauté & bien-être">💇 Beauté & bien-être</option>
+              <option value="Santé">🏥 Santé</option>
+              <option value="Commerce">🛍️ Commerce</option>
+              <option value="Services pro">🔧 Services pro</option>
+              <option value="Éducation">📚 Éducation</option>
+              <option value="Autre">📦 Autre</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Téléphone (WhatsApp / appel) <span class="req">*</span></label>
+            <input type="tel" id="f_phone" placeholder="Ex : +229 01 53 97 10 36" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Services proposés / description <span class="req">*</span></label>
+          <textarea id="f_desc" placeholder="Décris ce que tu proposes, tes horaires, tes spécialités…" required></textarea>
+        </div>
+
+        <div class="field">
+          <label>Adresse (quartier, ville, pays) <span class="req">*</span></label>
+          <input type="text" id="f_addr" placeholder="Ex : Akpakpa, Cotonou, Bénin" required>
+        </div>
+
+        <div class="geo-box">
+          <span class="geo-status" id="geoStatus">Coordonnées GPS non détectées</span>
+          <button type="button" class="btn-ghost" id="geoBtn">Utiliser ma position actuelle</button>
+        </div>
+        <button type="button" class="link-btn" id="manualToggle">Entrer les coordonnées manuellement</button>
+        <div class="field-row manual-coords" id="manualCoords">
+          <div class="field"><label>Latitude</label><input type="number" step="any" id="f_lat"></div>
+          <div class="field"><label>Longitude</label><input type="number" step="any" id="f_lng"></div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Inscrire mon entreprise sur JRADAR</button>
+        <div class="form-msg" id="formMsg"></div>
+        <p class="privacy-note">Les informations transmises (nom, contact, localisation, description) seront visibles publiquement par toute personne utilisant JRADAR, afin de permettre la mise en relation.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>JRADAR — du pixel au radar.</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
