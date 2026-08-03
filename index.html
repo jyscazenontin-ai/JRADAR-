@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JRADAR — Trouve. Localise. Commande.</title>
+<meta name="description" content="JRADAR localise commerces, restaurants et services près de vous. Trouvez, contactez et commandez directement. Inscription gratuite pour les pros.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="dot"></span> JRADAR</div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="discover">Découvrir</button>
+      <button class="tab-btn" data-tab="register">Inscription</button>
+      <button class="tab-btn" data-tab="myspace">Mon espace</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Annuaire local en temps réel</span>
+      <h1>Repère les entreprises <em>autour de toi</em>.</h1>
+      <p>JRADAR classe restaurants, commerces et services par proximité, où que tu sois — ville, quartier, pays. Localise, contacte, commande.</p>
+    </div>
+    <div class="radar" id="radarViz"></div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num" id="statBiz">0</span><span class="stat-label">entreprises inscrites</span></div>
+    <div class="stat-sep"></div>
+    <div class="stat"><span class="stat-num" id="statVisits">0</span><span class="stat-label">visiteurs</span></div>
+  </div>
+
+  <div class="quick-search-wrap">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Chercher une entreprise, un service, un quartier…">
+  </div>
+
+  <!-- ============ DÉCOUVRIR ============ -->
+  <section id="discover" class="active">
+    <h2 class="panel-title">Autour de toi</h2>
+    <p class="panel-sub">Classé du plus proche au plus loin dès que ta position est active.</p>
+
+    <div class="loc-banner" id="locBanner">
+      <div class="loc-status" id="locStatus">📍 Position non activée — les résultats ne sont pas triés par distance.</div>
+      <button class="btn-ghost" id="locBtn">Activer ma position</button>
+    </div>
+
+    <div class="filters">
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <div class="biz-grid" id="bizGrid"></div>
+
+    <!-- ============ TÉMOIGNAGES ============ -->
+    <div class="section-block">
+      <h2 class="panel-title">Ils utilisent JRADAR</h2>
+      <p class="panel-sub">Quelques retours (exemples à remplacer par tes vrais témoignages).</p>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">"J'ai trouvé un pressing à 400 mètres de chez moi en 10 secondes, sans avoir à demander à personne."</p>
+          <div class="testimonial-author">— Clara, utilisatrice</div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Depuis mon inscription sur JRADAR, je reçois des commandes directement sur WhatsApp."</p>
+          <div class="testimonial-author">— Amina, gérante de salon</div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Simple, rapide, et ça marche même dans mon quartier qui n'est jamais bien référencé ailleurs."</p>
+          <div class="testimonial-author">— Serge, utilisateur</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ FAQ ============ -->
+    <div class="section-block">
+      <h2 class="panel-title">Questions fréquentes</h2>
+      <div class="faq" id="faq">
+        <div class="faq-item">
+          <button class="faq-q">L'inscription est-elle payante ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Non, l'inscription est gratuite pendant la phase de lancement de JRADAR.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Comment supprimer ma fiche entreprise ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Va dans l'onglet "Mon espace", entre le code de gestion reçu à ton inscription, puis clique sur "Supprimer ma fiche".</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Comment JRADAR calcule la distance ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">À partir de ta position GPS et des coordonnées exactes de chaque entreprise, en ligne droite.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Comment laisser un avis sur une entreprise ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Clique sur "💬 Avis" sous la fiche d'une entreprise pour lire les avis existants ou en ajouter un.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Puis-je modifier ma fiche après inscription ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Pas encore directement. En attendant, contacte-nous depuis la page Contact, ou supprime ta fiche depuis "Mon espace" et réinscris-toi.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INSCRIPTION ============ -->
+  <section id="register">
+    <h2 class="panel-title">Inscris ton entreprise sur JRADAR</h2>
+    <p class="panel-sub">Ton profil apparaîtra immédiatement dans le radar, classé par proximité pour les personnes autour de toi.</p>
+
+    <div class="form-card">
+      <form id="bizForm">
+        <div class="field">
+          <label>Logo de l'entreprise (optionnel)</label>
+          <div class="logo-upload-row">
+            <div class="logo-preview" id="logoPreview">🏢</div>
+            <input type="file" id="f_logo" accept="image/*">
+          </div>
+          <div class="field-hint" id="logoHint">Image carrée conseillée, moins de 1 Mo.</div>
+        </div>
+
+        <div class="field">
+          <label>Nom de l'entreprise <span class="req">*</span></label>
+          <input type="text" id="f_name" placeholder="Ex : Le Grill du Port" required>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Catégorie <span class="req">*</span></label>
+            <select id="f_cat" required>
+              <option value="">Choisir…</option>
+              <option value="Restauration">🍽️ Restauration</option>
+              <option value="Beauté & bien-être">💇 Beauté & bien-être</option>
+              <option value="Santé">🏥 Santé</option>
+              <option value="Commerce">🛍️ Commerce</option>
+              <option value="Services pro">🔧 Services pro</option>
+              <option value="Éducation">📚 Éducation</option>
+              <option value="Autre">📦 Autre</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Téléphone (WhatsApp / appel) <span class="req">*</span></label>
+            <input type="tel" id="f_phone" placeholder="Ex : +229 01 53 97 10 36" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Services proposés / description <span class="req">*</span></label>
+          <textarea id="f_desc" placeholder="Décris ce que tu proposes, tes horaires, tes spécialités…" required></textarea>
+        </div>
+
+        <div class="field">
+          <label>Adresse (quartier, ville, pays) <span class="req">*</span></label>
+          <input type="text" id="f_addr" placeholder="Ex : Akpakpa, Cotonou, Bénin" required>
+        </div>
+
+        <div class="geo-box">
+          <span class="geo-status" id="geoStatus">Coordonnées GPS non détectées</span>
+          <button type="button" class="btn-ghost" id="geoBtn">Utiliser ma position actuelle</button>
+        </div>
+        <button type="button" class="link-btn" id="manualToggle">Entrer les coordonnées manuellement</button>
+        <div class="field-row manual-coords" id="manualCoords">
+          <div class="field"><label>Latitude</label><input type="number" step="any" id="f_lat"></div>
+          <div class="field"><label>Longitude</label><input type="number" step="any" id="f_lng"></div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Inscrire mon entreprise sur JRADAR</button>
+        <div class="form-msg" id="formMsg"></div>
+        <p class="privacy-note">Les informations transmises (nom, contact, localisation, description, logo) seront visibles publiquement par toute personne utilisant JRADAR, afin de permettre la mise en relation.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ MON ESPACE ============ -->
+  <section id="myspace">
+    <h2 class="panel-title">Mon espace entreprise</h2>
+    <p class="panel-sub">Retrouve ta fiche avec le code de gestion reçu à l'inscription, pour la consulter ou la supprimer.</p>
+
+    <div class="form-card">
+      <div class="field">
+        <label>Code de gestion</label>
+        <input type="text" id="mgmtInput" placeholder="Ex : A1B2C3D4" style="text-transform:uppercase;">
+      </div>
+      <button type="button" class="submit-btn" id="mgmtSearchBtn">Retrouver ma fiche</button>
+      <div class="form-msg" id="mgmtMsg"></div>
+      <div id="mgmtResult"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="logo"><span class="dot"></span> JRADAR</div>
+    <div class="footer-links">
+      <a href="index.html#discover">Découvrir</a>
+      <a href="index.html#register">Inscription</a>
+      <a href="index.html#myspace">Mon espace</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer-tagline">JRADAR — du pixel au radar.</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
