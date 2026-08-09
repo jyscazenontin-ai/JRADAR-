@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — JRADAR</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .gate{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .gate-box{ background: var(--surface); border:1px solid var(--line); border-radius: var(--radius); padding: 28px; max-width: 320px; width:100%; text-align:center; }
+  .gate-box input{ width:100%; background: var(--surface-2); border:1px solid var(--line); border-radius: 10px; padding: 12px 14px; color: var(--text); font-size:14px; margin: 16px 0; text-align:center; }
+  .gate-box button{ width:100%; background: var(--lime); color:#0A0A0B; border:none; border-radius: 10px; padding: 12px; font-weight:700; font-size:14px; }
+  .gate-err{ color:#ff8a8a; font-size:12.5px; margin-top:10px; display:none; }
+
+  #adminApp{ display:none; }
+  .admin-row{
+    background: var(--surface); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 16px 18px; margin-bottom: 12px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  }
+  .admin-row.featured{ border-color: rgba(203,255,71,0.4); }
+  .admin-info{ min-width:0; }
+  .admin-name{ font-family: var(--font-display); font-weight:600; font-size:16px; }
+  .admin-meta{ font-size:12px; color: var(--text-faint); font-family: var(--font-mono); margin-top:2px; }
+  .admin-search{ margin-bottom:20px; }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <div class="logo" style="justify-content:center;"><span class="dot"></span> JRADAR ADMIN</div>
+    <input type="password" id="pwInput" placeholder="Mot de passe">
+    <button id="pwBtn">Entrer</button>
+    <div class="gate-err" id="pwErr">Mot de passe incorrect.</div>
+  </div>
+</div>
+
+<div id="adminApp">
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="logo"><span class="dot"></span> JRADAR ADMIN</div>
+    </div>
+  </header>
+  <main class="wrap" style="padding-top:32px; padding-bottom:60px;">
+    <h1 class="panel-title">Mise en avant des entreprises</h1>
+    <p class="panel-sub">Active le badge ⭐ pour une entreprise qui t'a payé une mise en avant. Aucune expiration automatique — tu le retires quand tu veux.</p>
+    <input type="text" class="search-input admin-search" id="adminSearch" placeholder="🔍 Chercher par nom ou téléphone…">
+    <div id="adminList"><div class="empty-state">Chargement…</div></div>
+  </main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  // ⚠️ Ceci n'est qu'un verrou d'interface, pas une vraie sécurité :
+  // les règles Firestore actuelles ("if true") permettent techniquement
+  // à quiconque d'écrire dans la base via l'API, mot de passe ou non.
+  const ADMIN_PASSWORD = 'jradar-admin-2026';
+
+  document.getElementById('pwBtn').addEventListener('click', checkPassword);
+  document.getElementById('pwInput').addEventListener('keydown', e=>{ if(e.key==='Enter') checkPassword(); });
+
+  function checkPassword(){
+    const val = document.getElementById('pwInput').value;
+    if(val === ADMIN_PASSWORD){
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('adminApp').style.display = 'block';
+      initAdmin();
+    } else {
+      document.getElementById('pwErr').style.display = 'block';
+    }
+  }
+
+  function initAdmin(){
+    const firebaseConfig = {
+      apiKey: "AIzaSyDIXIjsUDdV6UNskuLsSkheTN7PsCPMSLs",
+      authDomain: "jradar-f5f70.firebaseapp.com",
+      projectId: "jradar-f5f70",
+      storageBucket: "jradar-f5f70.firebasestorage.app",
+      messagingSenderId: "163034212493",
+      appId: "1:163034212493:web:ebb74126a13ce0a2dd1ac4",
+      measurementId: "G-BCDWKVDQKT"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let businesses = [];
+    const adminList = document.getElementById('adminList');
+    const adminSearch = document.getElementById('adminSearch');
+
+    function escapeHtml(str){
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    async function loadAll(){
+      const snap = await db.collection('businesses').orderBy('createdAt','desc').get();
+      businesses = snap.docs.map(d=>({ id:d.id, ...d.data() }));
+      render();
+    }
+
+    function render(){
+      const term = adminSearch.value.trim().toLowerCase();
+      let list = businesses;
+      if(term){
+        list = list.filter(b => b.name.toLowerCase().includes(term) || (b.phone||'').includes(term));
+      }
+      if(list.length === 0){
+        adminList.innerHTML = '<div class="empty-state">Aucune entreprise trouvée.</div>';
+        return;
+      }
+      adminList.innerHTML = list.map(b=>`
+        <div class="admin-row ${b.featured ? 'featured' : ''}">
+          <div class="admin-info">
+            <div class="admin-name">${escapeHtml(b.name)} ${b.featured ? '<span class="featured-badge">⭐ Mise en avant</span>' : ''}</div>
+            <div class="admin-meta">${escapeHtml(b.phone||'')} · ${escapeHtml(b.category||'')}</div>
+          </div>
+          <div class="admin-actions">
+            ${b.featured
+              ? `<button type="button" class="biz-btn" data-unfeature="${b.id}">Retirer la mise en avant</button>`
+              : `<button type="button" class="biz-btn primary" data-feature="${b.id}">⭐ Mettre en avant</button>`
+            }
+          </div>
+        </div>
+      `).join('');
+
+      adminList.querySelectorAll('[data-feature]').forEach(btn=>{
+        btn.addEventListener('click', ()=> setFeatured(btn.dataset.feature, true));
+      });
+      adminList.querySelectorAll('[data-unfeature]').forEach(btn=>{
+        btn.addEventListener('click', ()=> setFeatured(btn.dataset.unfeature, false));
+      });
+    }
+
+    async function setFeatured(id, value){
+      const biz = businesses.find(b=>b.id===id);
+      if(!biz) return;
+      await db.collection('businesses').doc(id).update({ featured: value });
+      biz.featured = value;
+      render();
+    }
+
+    adminSearch.addEventListener('input', render);
+    loadAll();
+  }
+})();
+</script>
+</body>
+</html>

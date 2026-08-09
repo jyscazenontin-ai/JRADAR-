@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avis — JRADAR</title>
+<meta name="description" content="Tous les avis laissés par les utilisateurs de JRADAR sur les entreprises inscrites.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+<style>
+  .avis-hero{ padding: 40px 0 28px; }
+  .avis-list{ display:flex; flex-direction:column; gap: 12px; max-width: 640px; }
+  .avis-card{
+    background: var(--surface); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .avis-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px; }
+  .avis-biz{ font-family: var(--font-display); font-weight:600; font-size: 15px; }
+  .avis-cat{ font-size: 10.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing:0.04em; }
+  .avis-stars{ color: var(--lime); font-size: 13px; white-space:nowrap; }
+  .avis-comment{ font-size: 13.5px; color: var(--text-muted); margin-bottom: 8px; }
+  .avis-author{ font-size: 11.5px; color: var(--text-faint); font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="dot"></span> JRADAR</div>
+    <div class="tabs">
+      <a class="tab-btn" href="index.html#discover">Découvrir</a>
+      <a class="tab-btn" href="index.html#register">Inscription</a>
+      <a class="tab-btn" href="index.html#myspace">Mon espace</a>
+      <a class="tab-btn active" href="avis.html">Avis</a>
+      <a class="tab-btn" href="contact.html">Contact</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="avis-hero">
+    <span class="eyebrow">Retours des utilisateurs</span>
+    <h1 style="font-family:var(--font-display); font-weight:600; font-size:clamp(28px,4vw,40px); margin-bottom:12px;">Tous les <em style="font-style:italic;color:var(--lime);">avis</em> JRADAR</h1>
+    <p style="color:var(--text-muted); font-size:14.5px; max-width:480px; margin-bottom:28px;">Chaque avis laissé sur une fiche entreprise apparaît ici automatiquement, du plus récent au plus ancien.</p>
+
+    <div class="avis-list" id="avisFeed">
+      <div class="empty-state">Chargement des avis…</div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="logo"><span class="dot"></span> JRADAR</div>
+    <div class="footer-links">
+      <a href="index.html#discover">Découvrir</a>
+      <a href="index.html#register">Inscription</a>
+      <a href="index.html#myspace">Mon espace</a>
+      <a href="avis.html">Avis</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer-tagline">JRADAR — du pixel au radar.</div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
