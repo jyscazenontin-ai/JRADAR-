@@ -1,672 +1,220 @@
 <!DOCTYPE html>
-<html lang="fr" data-mode="pixel">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jysca — Du pixel au code</title>
-<meta name="description" content="Jysca Cybel, designer &amp; développeuse freelance basée au Bénin. Identité visuelle, UI/UX et développement web, du pixel au code.">
+<title>JRADAR — Trouve. Localise. Commande.</title>
+<meta name="description" content="JRADAR localise commerces, restaurants et services près de vous. Trouvez, contactez et commandez directement. Inscription gratuite pour les pros.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  :root{
-    --paper:#F6F4EC;
-    --ink:#15181B;
-    --lime:#CBFF47;
-    --violet:#6C5CE7;
-    --line:#DAD6C8;
-    --muted:#6B6E72;
-    --card:#FFFFFF;
-    --radius:18px;
-    --serif:'Fraunces', serif;
-    --sans:'Inter', sans-serif;
-    --mono:'JetBrains Mono', monospace;
-    --font-head: var(--serif);
-    --bg: var(--paper);
-    --fg: var(--ink);
-    --surface: var(--card);
-    --border: var(--line);
-    --sub: var(--muted);
-    --accent: var(--lime);
-    --accent-2: var(--violet);
-    --cursor-mode: default;
-  }
-
-  html[data-mode="code"]{
-    --radius:2px;
-    --font-head: var(--mono);
-    --bg:#0E1013;
-    --fg:#ECE9DF;
-    --surface:#181B1F;
-    --border:#2B2F34;
-    --sub:#8A8F96;
-    --accent: var(--lime);
-    --accent-2: var(--violet);
-  }
-
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--fg);
-    font-family:var(--sans);
-    transition:background .5s ease, color .5s ease;
-    -webkit-font-smoothing:antialiased;
-  }
-  html[data-mode="code"] body{ font-family:var(--mono); }
-
-  ::selection{ background:var(--accent); color:var(--ink); }
-
-  a{ color:inherit; }
-  img{ max-width:100%; display:block; }
-
-  .wrap{ max-width:1180px; margin:0 auto; padding:0 28px; }
-
-  /* ---------- NAV ---------- */
-  header{
-    position:sticky; top:0; z-index:50;
-    backdrop-filter:blur(10px);
-    background:color-mix(in srgb, var(--bg) 82%, transparent);
-    border-bottom:1px solid var(--border);
-  }
-  nav{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:18px 0;
-  }
-  .logo{
-    font-family:var(--font-head);
-    font-weight:600;
-    font-size:20px;
-    letter-spacing:-.02em;
-    text-decoration:none;
-    display:flex; align-items:center; gap:8px;
-  }
-  .logo .dot{ color:var(--accent); }
-  .nav-links{
-    display:flex; align-items:center; gap:28px; list-style:none; margin:0; padding:0;
-  }
-  .nav-links a{
-    text-decoration:none; font-size:14px; color:var(--sub);
-    transition:color .25s;
-  }
-  .nav-links a:hover{ color:var(--fg); }
-
-  .mode-toggle{
-    display:flex; align-items:center; gap:0;
-    border:1px solid var(--border);
-    border-radius:999px;
-    padding:3px;
-    position:relative;
-    font-family:var(--mono);
-    font-size:12px;
-    cursor:pointer;
-    user-select:none;
-  }
-  .mode-toggle span{
-    padding:6px 14px;
-    border-radius:999px;
-    position:relative; z-index:2;
-    color:var(--sub);
-    transition:color .3s;
-  }
-  .mode-toggle .thumb{
-    position:absolute; top:3px; bottom:3px; left:3px;
-    width:calc(50% - 3px);
-    background:var(--accent);
-    border-radius:999px;
-    transition:transform .35s cubic-bezier(.65,0,.35,1);
-    z-index:1;
-  }
-  html[data-mode="code"] .mode-toggle .thumb{ transform:translateX(100%); }
-  html[data-mode="pixel"] .mode-toggle span:first-child,
-  html[data-mode="code"] .mode-toggle span:last-child{ color:var(--ink); font-weight:600; }
-
-  .cta-btn{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--accent); color:var(--ink);
-    padding:10px 18px; border-radius:999px;
-    font-size:13px; font-weight:600; text-decoration:none;
-    white-space:nowrap;
-    transition:transform .25s, box-shadow .25s;
-  }
-  html[data-mode="code"] .cta-btn{ border-radius:2px; }
-  .cta-btn:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(203,255,71,.35); }
-
-  .burger{ display:none; }
-
-  /* ---------- HERO ---------- */
-  .hero{
-    padding:110px 0 90px;
-    position:relative;
-    overflow:hidden;
-  }
-  .hero-eyebrow{
-    font-family:var(--mono);
-    font-size:12.5px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--sub);
-    display:flex; align-items:center; gap:10px;
-    margin-bottom:26px;
-  }
-  .hero-eyebrow::before{
-    content:"";
-    width:8px; height:8px; border-radius:50%;
-    background:var(--accent);
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent);
-  }
-  .hero h1{
-    font-family:var(--font-head);
-    font-weight:500;
-    font-size:clamp(40px, 7vw, 84px);
-    line-height:1.02;
-    letter-spacing:-.02em;
-    margin:0 0 28px;
-    max-width:920px;
-  }
-  html[data-mode="pixel"] .hero h1 em{
-    font-style:italic; font-weight:400; color:var(--accent-2);
-  }
-  html[data-mode="code"] .hero h1{
-    font-weight:400;
-  }
-  html[data-mode="code"] .hero h1 em{
-    font-style:normal; color:var(--accent);
-  }
-  html[data-mode="code"] .hero h1::before{
-    content:"// ";
-    color:var(--sub);
-    font-size:0.5em;
-    vertical-align:middle;
-  }
-  .hero p.lead{
-    font-size:18px; line-height:1.65; color:var(--sub);
-    max-width:520px; margin:0 0 40px;
-  }
-  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
-  .btn-outline{
-    display:inline-flex; align-items:center; gap:8px;
-    border:1px solid var(--border);
-    padding:10px 18px; border-radius:999px;
-    text-decoration:none; font-size:14px; color:var(--fg);
-    transition:border-color .25s, background .25s;
-  }
-  html[data-mode="code"] .btn-outline{ border-radius:2px; }
-  .btn-outline:hover{ border-color:var(--accent); }
-
-  .hero-meta{
-    margin-top:70px;
-    display:grid; grid-template-columns:repeat(3,1fr);
-    gap:24px;
-    border-top:1px solid var(--border);
-    padding-top:24px;
-  }
-  .hero-meta div span{
-    display:block; font-size:12px; color:var(--sub); text-transform:uppercase; letter-spacing:.1em; margin-bottom:6px;
-  }
-  .hero-meta div strong{
-    font-family:var(--font-head); font-weight:500; font-size:16px;
-  }
-
-  /* ---------- SECTION HEADERS ---------- */
-  section{ padding:90px 0; border-bottom:1px solid var(--border); }
-  .section-head{
-    display:flex; justify-content:space-between; align-items:flex-end;
-    margin-bottom:52px; gap:24px; flex-wrap:wrap;
-  }
-  .section-tag{
-    font-family:var(--mono); font-size:12.5px; letter-spacing:.14em;
-    text-transform:uppercase; color:var(--accent-2); margin:0 0 12px;
-  }
-  html[data-mode="code"] .section-tag{ color:var(--accent); }
-  .section-head h2{
-    font-family:var(--font-head); font-weight:500; font-size:clamp(28px,4vw,42px);
-    margin:0; letter-spacing:-.01em;
-  }
-  .section-head p{ color:var(--sub); max-width:380px; margin:0; font-size:15px; line-height:1.6; }
-
-  /* ---------- ABOUT ---------- */
-  .about-grid{ display:grid; grid-template-columns:.75fr 1fr .8fr; gap:48px; align-items:start; }
-  .about-portrait{
-    position:relative; border-radius:var(--radius); overflow:hidden;
-    border:1px solid var(--border); aspect-ratio:3/4;
-  }
-  .about-portrait img{
-    width:100%; height:100%; object-fit:cover; object-position:top center;
-    filter:grayscale(0); transition:filter .5s ease;
-  }
-  html[data-mode="code"] .about-portrait img{ filter:grayscale(1) contrast(1.05); }
-  .about-portrait::after{
-    content:"jysca.jpg";
-    position:absolute; left:0; right:0; bottom:0;
-    font-family:var(--mono); font-size:11px; letter-spacing:.04em;
-    padding:10px 14px; color:#fff;
-    background:linear-gradient(to top, rgba(0,0,0,.55), transparent);
-    opacity:0; transition:opacity .3s;
-  }
-  html[data-mode="code"] .about-portrait::after{ opacity:1; }
-  .about-grid p{ font-size:17px; line-height:1.75; color:var(--sub); margin:0 0 18px; }
-  .about-grid strong{ color:var(--fg); font-weight:600; }
-  .skills-list{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0; }
-  .skills-list li{
-    display:flex; justify-content:space-between; padding:14px 0;
-    border-bottom:1px solid var(--border); font-size:14px;
-  }
-  .skills-list li span:first-child{ color:var(--fg); font-weight:500; }
-  .skills-list li span:last-child{ color:var(--sub); font-family:var(--mono); font-size:12.5px; }
-
-  /* ---------- CLIENTS ---------- */
-  .clients-band{
-    display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap;
-    padding:36px 0;
-  }
-  .clients-label{
-    font-family:var(--mono); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--sub);
-    white-space:nowrap;
-  }
-  .clients-logos{ display:flex; align-items:center; gap:36px; flex-wrap:wrap; }
-  .client-logo{
-    display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--fg);
-    padding:10px 18px; border:1px solid var(--border); border-radius:999px;
-    transition:border-color .25s, transform .25s;
-  }
-  html[data-mode="code"] .client-logo{ border-radius:2px; }
-  .client-logo:hover{ border-color:var(--accent-2); transform:translateY(-2px); }
-  html[data-mode="code"] .client-logo:hover{ border-color:var(--accent); }
-  .client-logo img{
-    height:26px; width:auto; object-fit:contain;
-    filter:grayscale(1); opacity:.85; transition:filter .3s, opacity .3s;
-  }
-  .client-logo:hover img{ filter:grayscale(0); opacity:1; }
-  .client-logo span{ font-size:13.5px; font-weight:500; }
-
-
-  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
-  .service-card{
-    background:var(--bg); padding:36px 30px; transition:background .3s;
-    display:flex; flex-direction:column; height:100%;
-  }
-  .service-card:hover{ background:var(--surface); }
-  .service-num{ font-family:var(--mono); font-size:12px; color:var(--sub); margin-bottom:22px; }
-  .service-card h3{ font-family:var(--font-head); font-weight:500; font-size:21px; margin:0 0 12px; }
-  .service-card p{ color:var(--sub); font-size:14.5px; line-height:1.65; margin:0 0 24px; flex-grow:1; }
-  .service-link{ font-size:13px; color:var(--accent-2); text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
-  html[data-mode="code"] .service-link{ color:var(--accent); }
-  .service-link:hover{ text-decoration:underline; }
-
-  /* ---------- PROJECTS ---------- */
-  .projects-scroll{
-    display:flex; gap:24px; overflow-x:auto; padding-bottom:16px;
-    scroll-snap-type:x mandatory; margin:0 -28px; padding-left:28px; padding-right:28px;
-  }
-  .projects-scroll::-webkit-scrollbar{ height:5px; }
-  .projects-scroll::-webkit-scrollbar-thumb{ background:var(--border); border-radius:10px; }
-
-  .project-card{
-    flex:0 0 auto; width:min(78vw, 400px);
-    scroll-snap-align:start;
-    border:1px solid var(--border); border-radius:var(--radius);
-    overflow:hidden; background:var(--surface);
-    display:flex; flex-direction:column;
-    transition:transform .3s, border-color .3s;
-  }
-  .project-card:hover{ transform:translateY(-6px); border-color:var(--accent); }
-  .project-visual{
-    height:220px; position:relative; overflow:hidden;
-    display:flex; align-items:flex-end; padding:20px;
-    font-family:var(--mono); font-size:12px; color:rgba(255,255,255,.85);
-  }
-  .project-visual .grain{ position:absolute; inset:0; opacity:.5; }
-  .project-body{ padding:26px; }
-  .project-body .p-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
-  .project-body .p-tags span{
-    font-family:var(--mono); font-size:11px; letter-spacing:.04em;
-    border:1px solid var(--border); padding:3px 9px; border-radius:999px; color:var(--sub);
-  }
-  html[data-mode="code"] .project-body .p-tags span{ border-radius:2px; }
-  .project-body h3{ font-family:var(--font-head); font-size:22px; font-weight:500; margin:0 0 10px; }
-  .project-body p{ font-size:14px; line-height:1.6; color:var(--sub); margin:0; }
-
-  /* ---------- TIMELINE ---------- */
-  .timeline{ display:flex; flex-direction:column; }
-  .timeline-item{
-    display:grid; grid-template-columns:120px 1fr; gap:32px;
-    padding:28px 0; border-top:1px solid var(--border);
-  }
-  .timeline-item:last-child{ border-bottom:1px solid var(--border); }
-  .timeline-year{ font-family:var(--mono); font-size:14px; color:var(--accent-2); }
-  html[data-mode="code"] .timeline-year{ color:var(--accent); }
-  .timeline-item h4{ font-family:var(--font-head); font-weight:500; font-size:19px; margin:0 0 8px; }
-  .timeline-item p{ color:var(--sub); font-size:14.5px; line-height:1.6; margin:0; max-width:560px; }
-
-  /* ---------- CONTACT ---------- */
-  .contact-inner{
-    display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
-  }
-  .contact-inner h2{
-    font-family:var(--font-head); font-weight:500; font-size:clamp(32px,5vw,52px);
-    line-height:1.1; margin:0 0 26px; letter-spacing:-.01em;
-  }
-  .contact-inner > div:first-child p{ color:var(--sub); font-size:16px; line-height:1.7; max-width:440px; margin:0 0 32px; }
-  .contact-links{ list-style:none; margin:0; padding:0; }
-  .contact-links li{ border-bottom:1px solid var(--border); }
-  .contact-links a{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:20px 4px; text-decoration:none; font-size:16px;
-    transition:color .25s, gap .25s;
-  }
-  .contact-links a:hover{ color:var(--accent-2); }
-  html[data-mode="code"] .contact-links a:hover{ color:var(--accent); }
-  .contact-links a span:last-child{ font-family:var(--mono); font-size:13px; color:var(--sub); }
-
-  footer{ padding:36px 0; }
-  footer .wrap{ display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--sub); flex-wrap:wrap; gap:12px; }
-  footer .wrap span{ font-family:var(--mono); }
-
-  /* ---------- WHATSAPP FLOAT ---------- */
-  .wa-float{
-    position:fixed; bottom:26px; right:26px; z-index:60;
-    width:56px; height:56px; border-radius:50%;
-    background:var(--accent); display:flex; align-items:center; justify-content:center;
-    box-shadow:0 10px 30px rgba(0,0,0,.25);
-    text-decoration:none;
-    transition:transform .25s;
-  }
-  html[data-mode="code"] .wa-float{ border-radius:2px; }
-  .wa-float:hover{ transform:scale(1.08); }
-  .wa-float svg{ width:26px; height:26px; }
-
-  /* ---------- REDUCED MOTION ---------- */
-  @media (prefers-reduced-motion:reduce){
-    *{ transition:none !important; scroll-behavior:auto !important; }
-  }
-
-  :focus-visible{ outline:2px solid var(--accent-2); outline-offset:3px; }
-
-  @media (max-width:920px){
-    .about-grid, .contact-inner{ grid-template-columns:1fr; }
-    .services-grid{ grid-template-columns:1fr; }
-    .hero-meta{ grid-template-columns:1fr; gap:16px; }
-    .nav-links{ display:none; }
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <nav>
-      <a href="#top" class="logo">Jysca<span class="dot">.</span></a>
-      <ul class="nav-links">
-        <li><a href="#about">À propos</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#projects">Projets</a></li>
-        <li><a href="#timeline">Parcours</a></li>
-      </ul>
-      <div style="display:flex; align-items:center; gap:16px;">
-        <div class="mode-toggle" id="modeToggle" role="button" aria-label="Basculer entre le mode Pixel et le mode Code" tabindex="0">
-          <div class="thumb"></div>
-          <span>Pixel</span>
-          <span>Code</span>
-        </div>
-        <a class="cta-btn" href="https://wa.me/2290153971036" target="_blank" rel="noopener">Discutons</a>
-      </div>
-    </nav>
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="dot"></span> JRADAR</div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="discover">Découvrir</button>
+      <button class="tab-btn" data-tab="register">Inscription</button>
+      <button class="tab-btn" data-tab="myspace">Mon espace</button>
+      <a class="tab-btn" href="avis.html">Avis</a>
+    </div>
   </div>
 </header>
 
-<main id="top">
+<main class="wrap">
 
-  <section class="hero" style="border-bottom:1px solid var(--border); padding-top:110px;">
-    <div class="wrap">
-      <p class="hero-eyebrow">Disponible en freelance · Bénin &amp; Afrique francophone</p>
-      <h1>Je conçois des interfaces <em>et</em> j'écris le code qui les fait vivre.</h1>
-      <p class="lead">Designer &amp; développeuse basée au Bénin. J'accompagne marques et startups d'Afrique francophone de l'identité visuelle jusqu'au produit déployé — sans rupture entre le pixel et le code.</p>
-      <div class="hero-actions">
-        <a class="cta-btn" href="#projects">Voir les projets</a>
-        <a class="btn-outline" href="#contact">Me contacter</a>
-      </div>
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Annuaire local en temps réel</span>
+      <h1>Repère les entreprises <em>autour de toi</em>.</h1>
+      <p>JRADAR classe restaurants, commerces et services par proximité, où que tu sois — ville, quartier, pays. Localise, contacte, commande.</p>
+    </div>
+    <div class="radar" id="radarViz"></div>
+  </div>
 
-      <div class="hero-meta">
-        <div><span>Basée à</span><strong>Bénin, Afrique de l'Ouest</strong></div>
-        <div><span>Spécialité</span><strong>Identité, UI/UX &amp; développement web</strong></div>
-        <div><span>Outils</span><strong>Figma · React · Firebase · Git</strong></div>
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num" id="statBiz">0</span><span class="stat-label">entreprises inscrites</span></div>
+    <div class="stat-sep"></div>
+    <div class="stat"><span class="stat-num" id="statVisits">0</span><span class="stat-label">visiteurs</span></div>
+  </div>
+
+  <div class="quick-search-wrap">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Chercher une entreprise, un service, un quartier…">
+  </div>
+
+  <!-- ============ DÉCOUVRIR ============ -->
+  <section id="discover" class="active">
+    <h2 class="panel-title">Autour de toi</h2>
+    <p class="panel-sub">Classé du plus proche au plus loin dès que ta position est active.</p>
+
+    <div class="loc-banner" id="locBanner">
+      <div class="loc-status" id="locStatus">📍 Position non activée — les résultats ne sont pas triés par distance.</div>
+      <button class="btn-ghost" id="locBtn">Activer ma position</button>
+    </div>
+
+    <div class="filters">
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <div class="biz-grid" id="bizGrid"></div>
+
+    <!-- ============ TÉMOIGNAGES ============ -->
+    <div class="section-block">
+      <h2 class="panel-title">Ils utilisent JRADAR</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">"J'ai trouvé un pressing à 400 mètres de chez moi en 10 secondes, sans avoir à demander à personne."</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Depuis mon inscription sur JRADAR, je reçois des commandes directement sur WhatsApp."</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Simple, rapide, et ça marche même dans mon quartier qui n'est jamais bien référencé ailleurs."</p>
+        </div>
       </div>
     </div>
-  </section>
 
-  <section id="about">
-    <div class="wrap about-grid">
-      <div class="about-portrait">
-        <img src="assets/portrait.jpg" alt="Portrait de Jysca">
-      </div>
-      <div>
-        <p class="section-tag">À propos</p>
-        <p><strong>Je m'appelle Jysca.</strong> Je travaille à la frontière entre design et développement — deux métiers que la plupart séparent, et que je refuse de dissocier. Une interface mal codée trahit le design ; un design mal pensé complique le code.</p>
-        <p>Mon approche : <strong>prototyper vite en design</strong>, puis <strong>construire proprement en code</strong> — HTML, CSS, JavaScript, React, avec Git pour le versionnage et GitHub Pages pour la mise en ligne. Chaque projet passe par les deux mains, les miennes.</p>
-        <p>Je conçois pour des marques et indépendants d'Afrique francophone qui veulent une présence en ligne qui leur ressemble, pas un template recyclé.</p>
-      </div>
-      <ul class="skills-list">
-        <li><span>Design</span><span>Figma · Adobe Suite · Motion</span></li>
-        <li><span>Branding</span><span>Identité · UI/UX</span></li>
-        <li><span>Développement</span><span>HTML · CSS · JS · React</span></li>
-        <li><span>Outils</span><span>Git · GitHub Pages</span></li>
-        <li><span>Langues</span><span>Français · terrain francophone</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <section style="padding:0; border-bottom:1px solid var(--border);">
-    <div class="wrap clients-band">
-      <span class="clients-label">Ils m'ont fait confiance</span>
-      <div class="clients-logos">
-        <a class="client-logo" href="https://winner-dreamer.github.io/WINNER-ENGLISH-CLUB2/" target="_blank" rel="noopener">
-          <img src="https://winner-dreamer.github.io/WINNER-ENGLISH-CLUB2/images/logo.png" alt="Logo Winner English Club">
-          <span>Winner English Club</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section id="services">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="section-tag">Services</p>
-          <h2>Du concept à la mise en ligne</h2>
+    <!-- ============ FAQ ============ -->
+    <div class="section-block">
+      <h2 class="panel-title">Questions fréquentes</h2>
+      <div class="faq" id="faq">
+        <div class="faq-item">
+          <button class="faq-q">L'inscription est-elle payante ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Non, l'inscription est gratuite pendant la phase de lancement de JRADAR.</div>
         </div>
-        <p>Trois façons de travailler ensemble, selon où en est votre projet.</p>
-      </div>
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-num">01</div>
-          <h3>Identité &amp; branding</h3>
-          <p>Logo, système de couleurs, typographie, déclinaisons. Une identité cohérente, pensée pour durer au-delà d'un seul support.</p>
-          <a class="service-link" href="https://wa.me/2290153971036?text=Bonjour%20Jysca%2C%20je%20suis%20int%C3%A9ress%C3%A9%28e%29%20par%20une%20identit%C3%A9%20visuelle." target="_blank" rel="noopener">En discuter sur WhatsApp →</a>
+        <div class="faq-item">
+          <button class="faq-q">Comment supprimer ou modifier ma fiche entreprise ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Va dans l'onglet "Mon espace", entre le code de gestion reçu à ton inscription, puis clique sur "Modifier ma fiche" ou "Supprimer".</div>
         </div>
-        <div class="service-card">
-          <div class="service-num">02</div>
-          <h3>UI/UX design</h3>
-          <p>Maquettes Figma, parcours utilisateur, design system. Des interfaces claires, testées avant d'être codées.</p>
-          <a class="service-link" href="https://wa.me/2290153971036?text=Bonjour%20Jysca%2C%20je%20suis%20int%C3%A9ress%C3%A9%28e%29%20par%20du%20design%20UI%2FUX." target="_blank" rel="noopener">En discuter sur WhatsApp →</a>
+        <div class="faq-item">
+          <button class="faq-q">Comment JRADAR calcule la distance ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">À partir de ta position GPS et des coordonnées exactes de chaque entreprise, en ligne droite.</div>
         </div>
-        <div class="service-card">
-          <div class="service-num">03</div>
-          <h3>Développement web</h3>
-          <p>Sites vitrines, applications React, intégration Firebase. Du code propre, versionné, déployé.</p>
-          <a class="service-link" href="https://wa.me/2290153971036?text=Bonjour%20Jysca%2C%20j%27ai%20un%20projet%20de%20d%C3%A9veloppement%20web." target="_blank" rel="noopener">En discuter sur WhatsApp →</a>
+        <div class="faq-item">
+          <button class="faq-q">Comment laisser un avis sur une entreprise ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Clique sur "💬 Avis" sous la fiche d'une entreprise pour lire les avis existants ou en ajouter un.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Puis-je modifier ma fiche après inscription ? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Oui. Va dans l'onglet "Mon espace", entre ton code de gestion, puis clique sur "Modifier ma fiche".</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="projects">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="section-tag">Sélection</p>
-          <h2>Projets récents</h2>
-        </div>
-        <p>Quatre projets, quatre équilibres différents entre design et développement.</p>
+  <!-- ============ INSCRIPTION ============ -->
+  <section id="register">
+    <h2 class="panel-title">Inscris ton entreprise sur JRADAR</h2>
+    <p class="panel-sub">Ton profil apparaîtra immédiatement dans le radar, classé par proximité pour les personnes autour de toi.</p>
+
+    <div class="sub-box">
+      <div class="sub-box-icon">⭐</div>
+      <div class="sub-box-text">
+        L'inscription est <strong>gratuite et illimitée</strong>. Tu peux aussi demander une <strong>mise en avant</strong> (badge prioritaire) en nous contactant sur WhatsApp après ton inscription.
       </div>
     </div>
-    <div class="wrap">
-      <div class="projects-scroll">
 
-        <div class="project-card">
-          <div class="project-visual" style="background:linear-gradient(135deg,#1B1E24,#3A3F52); ">
-            <span>lumino / éclairage connecté</span>
+    <div class="form-card">
+      <form id="bizForm">
+        <div class="field">
+          <label>Logo de l'entreprise (optionnel)</label>
+          <div class="logo-upload-row">
+            <div class="logo-preview" id="logoPreview">🏢</div>
+            <input type="file" id="f_logo" accept="image/*">
           </div>
-          <div class="project-body">
-            <div class="p-tags"><span>Branding</span><span>UI/UX</span><span>React</span></div>
-            <h3>Lumino</h3>
-            <p>Plateforme de pilotage d'éclairage connecté. Design system complet et interface web React pour configurer des scènes lumineuses en quelques clics.</p>
-          </div>
+          <div class="field-hint" id="logoHint">Image carrée conseillée, moins de 1 Mo.</div>
         </div>
 
-        <div class="project-card">
-          <div class="project-visual" style="background:linear-gradient(135deg,#CBFF47,#8FCB2E); color:#15181B;">
-            <span>floww / trésorerie indépendants</span>
-          </div>
-          <div class="project-body">
-            <div class="p-tags"><span>Identité</span><span>Dashboard</span><span>Figma</span></div>
-            <h3>Floww</h3>
-            <p>Outil de suivi de trésorerie pensé pour les indépendants d'Afrique francophone. Identité visuelle et tableau de bord pensés pour la clarté avant tout.</p>
-          </div>
+        <div class="field">
+          <label>Nom de l'entreprise <span class="req">*</span></label>
+          <input type="text" id="f_name" placeholder="Ex : Le Grill du Port" required>
         </div>
 
-        <div class="project-card">
-          <div class="project-visual" style="background:linear-gradient(135deg,#3E3428,#8A7255);">
-            <span>arkos studio / architecture</span>
+        <div class="field-row">
+          <div class="field">
+            <label>Catégorie <span class="req">*</span></label>
+            <select id="f_cat" required>
+              <option value="">Choisir…</option>
+              <option value="Restauration">🍽️ Restauration</option>
+              <option value="Beauté & bien-être">💇 Beauté & bien-être</option>
+              <option value="Santé">🏥 Santé</option>
+              <option value="Commerce">🛍️ Commerce</option>
+              <option value="Services pro">🔧 Services pro</option>
+              <option value="Éducation">📚 Éducation</option>
+              <option value="Autre">📦 Autre</option>
+            </select>
           </div>
-          <div class="project-body">
-            <div class="p-tags"><span>Site vitrine</span><span>Branding</span><span>HTML/CSS</span></div>
-            <h3>Arkos Studio</h3>
-            <p>Site vitrine pour un studio d'architecture. Mise en page éditoriale, portfolio de projets bâtis, et une identité qui laisse respirer l'image.</p>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-visual" style="background:linear-gradient(135deg,#6C5CE7,#3B2E8C);">
-            <span>cleanbatch / pressing &amp; blanchisserie</span>
-          </div>
-          <div class="project-body">
-            <div class="p-tags"><span>UX mobile</span><span>React</span><span>Firebase</span></div>
-            <h3>CleanBatch</h3>
-            <p>Application de gestion pour pressings : suivi des commandes, notifications clients, tableau de bord opérateur. Pensée mobile-first.</p>
+          <div class="field">
+            <label>Téléphone (WhatsApp / appel) <span class="req">*</span></label>
+            <input type="tel" id="f_phone" placeholder="Ex : +229 01 53 97 10 36" required>
           </div>
         </div>
 
-        <div class="project-card">
-          <div class="project-visual" style="background:linear-gradient(135deg,#0F2A3D,#1E6E5C);">
-            <span>jradar / annuaire local &amp; food radar</span>
-          </div>
-          <div class="project-body">
-            <div class="p-tags"><span>Firebase</span><span>Géolocalisation</span><span>HTML/CSS/JS</span></div>
-            <h3>JRADAR</h3>
-            <p>Radar de commerces locaux au Bénin et en Afrique francophone : géolocalisation GPS, tri par distance, inscription des entreprises et espace de gestion. Déployé et en ligne.</p>
-            <a class="service-link" href="https://jyscazenontin-ai.github.io/JRADAR-/" target="_blank" rel="noopener" style="margin-top:14px; display:inline-block;">Voir le site →</a>
-          </div>
+        <div class="field">
+          <label>Services proposés / description <span class="req">*</span></label>
+          <textarea id="f_desc" placeholder="Décris ce que tu proposes, tes horaires, tes spécialités…" required></textarea>
         </div>
 
-      </div>
-    </div>
-  </section>
+        <div class="field">
+          <label>Adresse (quartier, ville, pays) <span class="req">*</span></label>
+          <input type="text" id="f_addr" placeholder="Ex : Akpakpa, Cotonou, Bénin" required>
+        </div>
 
-  <section id="timeline">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="section-tag">Parcours</p>
-          <h2>Comment j'en suis arrivée là</h2>
+        <div class="geo-box">
+          <span class="geo-status" id="geoStatus">Coordonnées GPS non détectées</span>
+          <button type="button" class="btn-ghost" id="geoBtn">Utiliser ma position actuelle</button>
         </div>
-      </div>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-year">2022 — 2023</div>
-          <div>
-            <h4>Premiers pas en design</h4>
-            <p>Apprentissage de Figma et de l'Adobe Suite. Premiers projets de branding pour des indépendants locaux.</p>
-          </div>
+        <button type="button" class="link-btn" id="manualToggle">Entrer les coordonnées manuellement</button>
+        <div class="field-row manual-coords" id="manualCoords">
+          <div class="field"><label>Latitude</label><input type="number" step="any" id="f_lat"></div>
+          <div class="field"><label>Longitude</label><input type="number" step="any" id="f_lng"></div>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2024</div>
-          <div>
-            <h4>Passage au développement</h4>
-            <p>Montée en compétence sur HTML, CSS, JavaScript puis React. Début du lancement de mon activité freelance sous "Jysca / du pixel au code".</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2025 — aujourd'hui</div>
-          <div>
-            <h4>Projets hybrides design + dev</h4>
-            <p>Accompagnement de marques et indépendants du concept à la mise en ligne, avec Git et GitHub Pages comme socle de déploiement.</p>
-          </div>
-        </div>
-      </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Inscrire mon entreprise sur JRADAR</button>
+        <div class="form-msg" id="formMsg"></div>
+        <p class="privacy-note">Les informations transmises (nom, contact, localisation, description, logo) seront visibles publiquement par toute personne utilisant JRADAR, afin de permettre la mise en relation.</p>
+      </form>
     </div>
   </section>
 
-  <section id="contact" style="border-bottom:none;">
-    <div class="wrap contact-inner">
-      <div>
-        <p class="section-tag">Contact</p>
-        <h2>On construit<br>quelque chose ?</h2>
-        <p>Que ce soit pour une identité complète ou juste quelques écrans, écrivez-moi — je réponds vite sur WhatsApp.</p>
-        <a class="cta-btn" href="https://wa.me/2290153971036" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+  <!-- ============ MON ESPACE ============ -->
+  <section id="myspace">
+    <h2 class="panel-title">Mon espace entreprise</h2>
+    <p class="panel-sub">Retrouve ta fiche avec le code de gestion reçu à l'inscription, pour la consulter ou la supprimer.</p>
+
+    <div class="form-card">
+      <div class="field">
+        <label>Code de gestion</label>
+        <input type="text" id="mgmtInput" placeholder="Ex : A1B2C3D4" style="text-transform:uppercase;">
       </div>
-      <ul class="contact-links">
-        <li><a href="https://wa.me/2290153971036" target="_blank" rel="noopener"><span>WhatsApp — Bénin</span><span>+229 01 53 97 10 36</span></a></li>
-        <li><a href="https://wa.me/233547752012" target="_blank" rel="noopener"><span>WhatsApp — Ghana</span><span>+233 054 775 2012</span></a></li>
-        <li><a href="mailto:jyscazenontin@gmail.com"><span>Email</span><span>jyscazenontin@gmail.com</span></a></li>
-        <li><a href="#" target="_blank" rel="noopener"><span>Facebook</span><span>@jysca</span></a></li>
-        <li><a href="#" target="_blank" rel="noopener"><span>LinkedIn</span><span>in/jysca</span></a></li>
-      </ul>
+      <button type="button" class="submit-btn" id="mgmtSearchBtn">Retrouver ma fiche</button>
+      <div class="form-msg" id="mgmtMsg"></div>
+      <div id="mgmtResult"></div>
     </div>
   </section>
 
 </main>
 
-<footer>
-  <div class="wrap">
-    <span>© 2026 Jysca — du pixel au code</span>
-    <span id="modeIndicator">mode: pixel</span>
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="logo"><span class="dot"></span> JRADAR</div>
+    <div class="footer-links">
+      <a href="index.html#discover">Découvrir</a>
+      <a href="index.html#register">Inscription</a>
+      <a href="index.html#myspace">Mon espace</a>
+      <a href="avis.html">Avis</a>
+      <a href="contact.html">Contact</a>
+    </div>
   </div>
+  <div class="footer-tagline">JRADAR — du pixel au radar.</div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/2290153971036" target="_blank" rel="noopener" aria-label="Contacter sur WhatsApp">
-  <svg viewBox="0 0 32 32" fill="#15181B"><path d="M16 3C9 3 3.3 8.7 3.3 15.7c0 2.4.6 4.6 1.8 6.6L3 29l6.9-2c1.9 1 4 1.6 6.1 1.6 7 0 12.7-5.7 12.7-12.7C28.7 8.7 23 3 16 3zm0 23.1c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-4.1 1.2 1.2-4-.2-.4c-1.1-1.7-1.7-3.7-1.7-5.7 0-5.9 4.8-10.7 10.7-10.7 5.9 0 10.7 4.8 10.7 10.7-.1 6-4.9 10.6-10.9 10.6zm5.8-8c-.3-.2-1.9-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-2-1.8-2.3-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.1.2 2.2 3.4 5.4 4.7.8.3 1.3.5 1.8.6.8.3 1.4.2 2 .1.6-.1 1.9-.8 2.1-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg>
-</a>
-
-<script>
-  const html = document.documentElement;
-  const toggle = document.getElementById('modeToggle');
-  const indicator = document.getElementById('modeIndicator');
-
-  function setMode(mode){
-    html.setAttribute('data-mode', mode);
-    indicator.textContent = 'mode: ' + mode;
-    try{ localStorage.setItem('jysca-mode', mode); }catch(e){}
-  }
-
-  toggle.addEventListener('click', () => {
-    const current = html.getAttribute('data-mode');
-    setMode(current === 'pixel' ? 'code' : 'pixel');
-  });
-  toggle.addEventListener('keydown', (e) => {
-    if(e.key === 'Enter' || e.key === ' '){
-      e.preventDefault();
-      toggle.click();
-    }
-  });
-
-  try{
-    const saved = localStorage.getItem('jysca-mode');
-    if(saved) setMode(saved);
-  }catch(e){}
-</script>
-
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
